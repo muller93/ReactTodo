@@ -19543,21 +19543,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TodoList = function (_React$Component) {
   _inherits(TodoList, _React$Component);
 
-  function TodoList() {
+  function TodoList(props) {
     _classCallCheck(this, TodoList);
 
-    return _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
+
+    _this.state = { todos: [{ label: 'one' }, // feltöltjük objectekkel a tömböt
+      { label: 'two' }, { label: 'three' }, { label: 'four' }, { label: 'five' }] };
+    return _this;
   }
 
   _createClass(TodoList, [{
     key: 'render',
     value: function render() {
+      var todos = this.state.todos.map(function (element) {
+        return _react2.default.createElement(_todoItem2.default, { label: element.label, key: element.label });
+      }); // mappel új tömbbe pakoljuk az elemeket. behelyettesítjük a labelekbe a TodoItemeket
       return _react2.default.createElement(
         'ul',
         { className: 'todo-list' },
-        _react2.default.createElement(_todoItem2.default, { label: 'Elso tennivalo' }),
-        _react2.default.createElement(_todoItem2.default, { label: 'Masodik tennivalo' }),
-        _react2.default.createElement(_todoItem2.default, { label: 'Ez meg a harmadik' })
+        todos
       );
     }
   }]);
@@ -19600,24 +19605,23 @@ var TodoItem = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (TodoItem.__proto__ || Object.getPrototypeOf(TodoItem)).call(this, props));
 
-    _this.state = { isRed: false };
+    _this.state = { isDone: false };
     return _this;
   }
 
   _createClass(TodoItem, [{
-    key: 'changeColor',
-    value: function changeColor() {
-      // let newValue = !this.state.isRed;
-      this.setState({ isRed: !this.state.isRed });
+    key: 'changeDone',
+    value: function changeDone() {
+      // let newValue = !this.state.isDone;
+      this.setState({ isDone: !this.state.isDone });
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'li',
-        {
-          onClick: this.changeColor.bind(this),
-          style: { color: this.state.isRed ? 'red' : '' } // ez a szín (? ez egy if), 'red (igaz ág)' : '(hamis ág)'
+        { onClick: this.changeDone.bind(this),
+          style: { colors: this.state.isDone ? 'red' : '' } // ez a szín (? ez egy if), 'red (igaz ág)' : '(hamis ág)'
         },
         this.props.label
       );
@@ -19716,24 +19720,40 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CreateItemForm = function (_React$Component) {
   _inherits(CreateItemForm, _React$Component);
 
-  function CreateItemForm() {
+  function CreateItemForm(props) {
     _classCallCheck(this, CreateItemForm);
 
-    return _possibleConstructorReturn(this, (CreateItemForm.__proto__ || Object.getPrototypeOf(CreateItemForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (CreateItemForm.__proto__ || Object.getPrototypeOf(CreateItemForm)).call(this, props));
+
+    _this.state = {
+      inputValue: ''
+    };
+    return _this;
   }
 
   _createClass(CreateItemForm, [{
+    key: 'submit',
+    value: function submit() {
+      console.log('Submit successful');
+    }
+  }, {
+    key: 'changeInputValue',
+    value: function changeInputValue(element) {
+      this.setState({ inputValue: element.target.value });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'form',
         null,
-        _react2.default.createElement('input', { type: 'text', placeholder: 'Write' }),
+        _react2.default.createElement('input', { type: 'text', value: this.state.inputValue, onChange: this.changeInputValue.bind(this) }),
         _react2.default.createElement(
           'button',
-          { type: 'button' },
-          '\'Click\' '
-        )
+          { type: 'button', onClick: this.submit },
+          'Click '
+        ),
+        this.state.inputValue
       );
     }
   }]);
