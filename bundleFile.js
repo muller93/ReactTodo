@@ -19621,7 +19621,7 @@ var TodoItem = function (_React$Component) {
       return _react2.default.createElement(
         'li',
         { onClick: this.changeDone.bind(this),
-          style: { colors: this.state.isDone ? 'red' : '' } // ez a szín (? ez egy if), 'red (igaz ág)' : '(hamis ág)'
+          style: { color: this.state.isDone ? 'red' : '' } // ez a szín (? ez egy if), 'red (igaz ág)' : '(hamis ág)'
         },
         this.props.label
       );
