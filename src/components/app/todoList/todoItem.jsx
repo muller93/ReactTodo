@@ -15,7 +15,8 @@ class TodoItem extends React.Component {
     return (
       <li onClick={this.changeDone.bind(this)}
         style={{ color: (this.state.isDone ? 'red' : '') }} // ez a szín (? ez egy if), 'red (igaz ág)' : '(hamis ág)'
-      >{this.props.label}</li>
+      >
+        {this.props.label}</li>
     );
   }
 }

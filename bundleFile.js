@@ -19488,20 +19488,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
 
-  function App() {
+  function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this.state = { todos: [{ label: 'one' }, // feltöltjük objectekkel a tömböt
+      { label: 'two' }, { label: 'three' }, { label: 'four' }, { label: 'five' }] };
+    return _this;
   }
 
   _createClass(App, [{
+    key: 'submit',
+    value: function submit(inputValue) {
+      console.log(inputValue);
+      var todos = this.state.todos;
+      todos.push({ label: inputValue });
+      this.setState({ todos: todos });
+    }
+  }, {
     key: 'render',
     value: function render() {
+      console.log(this.state);
       return _react2.default.createElement(
         'div',
         { className: 'todoListWrapper' },
-        _react2.default.createElement(_todoList2.default, null),
-        _react2.default.createElement(_createItem2.default, null)
+        _react2.default.createElement(_todoList2.default, { todos: this.state.todos }),
+        _react2.default.createElement(_createItem2.default, { submit: this.submit.bind(this) })
       );
     }
   }]);
@@ -19543,20 +19556,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TodoList = function (_React$Component) {
   _inherits(TodoList, _React$Component);
 
-  function TodoList(props) {
+  function TodoList() {
     _classCallCheck(this, TodoList);
 
-    var _this = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
-
-    _this.state = { todos: [{ label: 'one' }, // feltöltjük objectekkel a tömböt
-      { label: 'two' }, { label: 'three' }, { label: 'four' }, { label: 'five' }] };
-    return _this;
+    return _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).apply(this, arguments));
   }
 
   _createClass(TodoList, [{
     key: 'render',
     value: function render() {
-      var todos = this.state.todos.map(function (element) {
+      var todos = this.props.todos.map(function (element) {
         return _react2.default.createElement(_todoItem2.default, { label: element.label, key: element.label });
       }); // mappel új tömbbe pakoljuk az elemeket. behelyettesítjük a labelekbe a TodoItemeket
       return _react2.default.createElement(
@@ -19672,6 +19681,12 @@ var CreateItem = function (_React$Component) {
   }
 
   _createClass(CreateItem, [{
+    key: 'submit',
+    value: function submit(inputValue) {
+      console.log(inputValue);
+      this.props.submit(inputValue);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -19682,7 +19697,7 @@ var CreateItem = function (_React$Component) {
           null,
           'Create new item '
         ),
-        _react2.default.createElement(_createItemForm2.default, null)
+        _react2.default.createElement(_createItemForm2.default, { submit: this.submit.bind(this) })
       );
     }
   }]);
@@ -19734,7 +19749,8 @@ var CreateItemForm = function (_React$Component) {
   _createClass(CreateItemForm, [{
     key: 'submit',
     value: function submit() {
-      console.log('Submit successful');
+      console.log('Submit successful', this.state.inputValue);
+      this.props.submit(this.state.inputValue);
     }
   }, {
     key: 'changeInputValue',
@@ -19750,9 +19766,10 @@ var CreateItemForm = function (_React$Component) {
         _react2.default.createElement('input', { type: 'text', value: this.state.inputValue, onChange: this.changeInputValue.bind(this) }),
         _react2.default.createElement(
           'button',
-          { type: 'button', onClick: this.submit },
-          'Click '
+          { type: 'button', onClick: this.submit.bind(this) },
+          'Submit '
         ),
+        _react2.default.createElement('br', null),
         this.state.inputValue
       );
     }
