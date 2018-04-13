@@ -19473,9 +19473,9 @@ var _todoList = __webpack_require__(26);
 
 var _todoList2 = _interopRequireDefault(_todoList);
 
-var _createItem = __webpack_require__(28);
+var _CreateItem = __webpack_require__(30);
 
-var _createItem2 = _interopRequireDefault(_createItem);
+var _CreateItem2 = _interopRequireDefault(_CreateItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19493,12 +19493,28 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-    _this.state = { todos: [{ label: 'one' }, // feltöltjük objectekkel a tömböt
-      { label: 'two' }, { label: 'three' }, { label: 'four' }, { label: 'five' }] };
+    _this.state = {
+      todos: [{ label: 'one' }, { label: 'asdasd' }, { label: '322' }, { label: 'sdffsd' }, { label: 'five' }]
+    };
     return _this;
   }
 
   _createClass(App, [{
+    key: 'delete',
+    value: function _delete(label) {
+      console.log(label);
+      var todos = this.state.todos;
+      var i = 0;
+      while (i < todos.length && todos[i].label !== label) {
+        i++;
+      }
+      console.log(i);
+      if (i < todos.length) {
+        todos.splice(i, 1);
+        this.setState({ todos: todos });
+      }
+    }
+  }, {
     key: 'submit',
     value: function submit(inputValue) {
       console.log(inputValue);
@@ -19513,8 +19529,8 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'todoListWrapper' },
-        _react2.default.createElement(_todoList2.default, { todos: this.state.todos }),
-        _react2.default.createElement(_createItem2.default, { submit: this.submit.bind(this) })
+        _react2.default.createElement(_todoList2.default, { todos: this.state.todos, 'delete': this.delete.bind(this) }),
+        _react2.default.createElement(_CreateItem2.default, { submit: this.submit.bind(this) })
       );
     }
   }]);
@@ -19563,11 +19579,19 @@ var TodoList = function (_React$Component) {
   }
 
   _createClass(TodoList, [{
+    key: 'delete',
+    value: function _delete(label) {
+      console.log(label);
+      this.props.delete(label);
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var todos = this.props.todos.map(function (element) {
-        return _react2.default.createElement(_todoItem2.default, { label: element.label, key: element.label });
-      }); // mappel új tömbbe pakoljuk az elemeket. behelyettesítjük a labelekbe a TodoItemeket
+      var _this2 = this;
+
+      var todos = this.props.todos.map(function (todo) {
+        return _react2.default.createElement(_todoItem2.default, { todo: todo, key: todo, 'delete': _this2.delete.bind(_this2) });
+      });
       return _react2.default.createElement(
         'ul',
         { className: 'todo-list' },
@@ -19619,20 +19643,35 @@ var TodoItem = function (_React$Component) {
   }
 
   _createClass(TodoItem, [{
+    key: 'delete',
+    value: function _delete() {
+      console.log('delete succesfull', this.state.isDone);
+      this.props.delete(this.props.todo.label);
+    }
+  }, {
     key: 'changeDone',
     value: function changeDone() {
-      // let newValue = !this.state.isDone;
       this.setState({ isDone: !this.state.isDone });
+      if (this.state.isDone === true) {
+        this.delete();
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'li',
-        { onClick: this.changeDone.bind(this),
-          style: { color: this.state.isDone ? 'red' : '' } // ez a szín (? ez egy if), 'red (igaz ág)' : '(hamis ág)'
-        },
-        this.props.label
+        { style: { color: this.state.isDone ? 'red' : '' } },
+        _react2.default.createElement(
+          'button',
+          { type: 'button', onClick: this.delete.bind(this) },
+          'Delete'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          this.props.todo.label
+        )
       );
     }
   }]);
@@ -19643,7 +19682,9 @@ var TodoItem = function (_React$Component) {
 exports.default = TodoItem;
 
 /***/ }),
-/* 28 */
+/* 28 */,
+/* 29 */,
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19659,9 +19700,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _createItemForm = __webpack_require__(29);
+var _CreateItemForm = __webpack_require__(31);
 
-var _createItemForm2 = _interopRequireDefault(_createItemForm);
+var _CreateItemForm2 = _interopRequireDefault(_CreateItemForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19695,9 +19736,9 @@ var CreateItem = function (_React$Component) {
         _react2.default.createElement(
           'p',
           null,
-          'Create new item '
+          'create new Item '
         ),
-        _react2.default.createElement(_createItemForm2.default, { submit: this.submit.bind(this) })
+        _react2.default.createElement(_CreateItemForm2.default, { submit: this.submit.bind(this) })
       );
     }
   }]);
@@ -19708,7 +19749,7 @@ var CreateItem = function (_React$Component) {
 exports.default = CreateItem;
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19749,7 +19790,7 @@ var CreateItemForm = function (_React$Component) {
   _createClass(CreateItemForm, [{
     key: 'submit',
     value: function submit() {
-      console.log('Submit successful', this.state.inputValue);
+      console.log('submit succesfull', this.state.inputValue);
       this.props.submit(this.state.inputValue);
     }
   }, {
@@ -19767,7 +19808,7 @@ var CreateItemForm = function (_React$Component) {
         _react2.default.createElement(
           'button',
           { type: 'button', onClick: this.submit.bind(this) },
-          'Submit '
+          'Click me'
         ),
         _react2.default.createElement('br', null),
         this.state.inputValue
