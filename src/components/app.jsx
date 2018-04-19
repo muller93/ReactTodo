@@ -7,11 +7,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       todos: [
-        { label: 'one' },
-        { label: 'asdasd' },
-        { label: '322' },
-        { label: 'sdffsd' },
-        { label: 'five' }
+        { label: 'Saturn' },
+        { label: 'Earth' },
+        { label: 'Merkur' },
+        { label: 'Mars' },
+        { label: 'Venus' }
       ]
     };
   }

@@ -9,7 +9,7 @@ class CreateItem extends React.Component {
   render () {
     return (
       <div className='createItemWrapper'>
-        <p>create new Item </p>
+        <p>Create new Item</p>
         <CreateItemForm submit={this.submit.bind(this)} />
       </div>
     );
