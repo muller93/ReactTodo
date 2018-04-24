@@ -19,7 +19,7 @@ class TodoItem extends React.Component {
 
   render () {
     return (
-      <li style={{color: (this.state.isDone ? 'red' : '')}}>
+      <li style={{color: (this.state.isDone ? 'red' : '')}} className='todo-item'>
         {this.props.todo.label} <button type='button' onClick={this.delete.bind(this)}>Delete</button>
       </li>
     );

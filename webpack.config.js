@@ -7,7 +7,7 @@ module.exports = {
 
   },
   output: {
-    path: [__dirname].join('/'),
+    path: [__dirname, 'public'].join('/'),
     filename: 'bundleFile.js'
   },
   resolve: {

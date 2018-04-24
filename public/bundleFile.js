@@ -19661,7 +19661,7 @@ var TodoItem = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'li',
-        { style: { color: this.state.isDone ? 'red' : '' } },
+        { style: { color: this.state.isDone ? 'red' : '' }, className: 'todo-item' },
         this.props.todo.label,
         ' ',
         _react2.default.createElement(
