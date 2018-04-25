@@ -1,45 +1,16 @@
 import React from 'react';
-import TodoList from './app/todoList';
-import CreateItem from './app/CreateItem';
+import TodoIndex from './app/todoindex';
+import { BrowserRouter } from 'react-router-dom';
+import { Route } from 'react-router';
 
 class App extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      todos: [
-        { label: 'Saturn' },
-        { label: 'Earth' },
-        { label: 'Merkur' },
-        { label: 'Mars' },
-        { label: 'Venus' }
-      ]
-    };
-  }
-  delete (label) {
-    console.log(label);
-    let todos = this.state.todos;
-    let i = 0;
-    while (i < todos.length && todos[i].label !== label) {
-      i++;
-    }
-    console.log(i);
-    if (i < todos.length) {
-      todos.splice(i, 1);
-      this.setState({todos: todos});
-    }
-  }
-  submit (inputValue) {
-    console.log(inputValue);
-    let todos = this.state.todos;
-    todos.push({ label: inputValue });
-    this.setState({ todos: todos });
-  }
   render () {
     console.log(this.state);
     return (
       <div className='todoListWrapper'>
-        <TodoList todos={this.state.todos} delete={this.delete.bind(this)} />
-        <CreateItem submit={this.submit.bind(this)} />
+        <BrowserRouter>
+          <Route path='/' component={TodoIndex} />
+        </BrowserRouter>
       </div>
     );
   }
